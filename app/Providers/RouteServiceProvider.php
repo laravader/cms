@@ -40,22 +40,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
         });
-
-        $this->mapMenu($router, config('menu'));
     }
 
-    private function mapMenu(Router $router, array $menus) {
-        foreach ($menus as $menu) {
-            if (is_array($menu)) {
-                $this->mapMenu($router, $menu);
-                continue;
-            } else if (!$menu instanceof MenuBuilder) {
-                throw new UnexpectedValueException("Expect menu to be instanceof MenuBuilder.");
-            }
-
-            $router->group(['namespace' => $menu->getNamespace()], function ($router) use ($menu) {
-                $menu->registerRoutes($router);
-            });
-        }
-    }
 }

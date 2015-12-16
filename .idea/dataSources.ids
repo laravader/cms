@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - lamesabonita@localhost" uuid="627c06ce-510b-42a1-bc04-4a795bcccd0a">
+    <database-info product="MySQL" version="5.5.43-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <schema name="" catalog="lamesabonita"/>
+    <table name="admin_password_resets" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="token" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <index name="admin_password_resets_email_index" unique="false" columns="email"/>
+      <index name="admin_password_resets_token_index" unique="false" columns="token"/>
+    </table>
+    <table name="admin_users" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <column name="remember_token" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="admin_users_email_unique" unique="true" columns="email"/>
+    </table>
+    <table name="avaliacao" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_avaliacao" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="texto" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="nota" sqlType="DECIMAL" precision="3" scale="1" nullable="false" jdbcType="3"/>
+      <column name="fk_degustador" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_chef" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ind_aguardando_aprovacao" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5" def="MA=="/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_avaliacao"/>
+      <foreign-key name="avaliacao_fk_chef_foreign" columns="fk_chef" ref-table="chef" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_chef" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="avaliacao_fk_degustador_foreign" columns="fk_degustador" ref-table="degustador" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_degustador" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="avaliacao_fk_chef_foreign" unique="false" columns="fk_chef"/>
+      <index name="avaliacao_fk_degustador_foreign" unique="false" columns="fk_degustador"/>
+    </table>
+    <table name="banco" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_banco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nome_banco" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_banco"/>
+      <exported-key name="chef_fk_banco_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_banco"/>
+    </table>
+    <table name="cache" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="key" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="value" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="expiration" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <index name="cache_key_unique" unique="true" columns="key"/>
+    </table>
+    <table name="chef" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_chef" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_sexo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="fk_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_selo_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="fk_banco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="fk_cidade" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="fk_estado" sqlType="CHAR" precision="4" scale="0" nullable="true" jdbcType="1"/>
+      <column name="fk_pais" sqlType="CHAR" precision="255" scale="0" nullable="true" jdbcType="1"/>
+      <column name="data_nascimento" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="sobre_chef" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="sobrenome" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="cpf" sqlType="VARCHAR" precision="14" scale="0" nullable="false" jdbcType="12"/>
+      <column name="rg" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="avatar" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="slug" sqlType="VARCHAR" precision="120" scale="0" nullable="false" jdbcType="12"/>
+      <column name="telefone" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="foto_capa" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="banco_agencia" sqlType="VARCHAR" precision="15" scale="0" nullable="true" jdbcType="12"/>
+      <column name="banco_conta" sqlType="VARCHAR" precision="15" scale="0" nullable="true" jdbcType="12"/>
+      <column name="banco_proprietario_conta" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="cep" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="logadouro" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="logadouro_numero" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ind_toda_cidade" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="distancia_aceita" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="chef_fk_banco_foreign" columns="fk_banco" ref-table="banco" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_banco" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_fk_cidade_foreign" columns="fk_cidade" ref-table="cidade" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_cidade" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_fk_estado_foreign" columns="fk_estado" ref-table="estado" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_estado" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_fk_pais_foreign" columns="fk_pais" ref-table="pais" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pais" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_fk_selo_status_foreign" columns="fk_selo_status" ref-table="chef_selo_status" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_selo_status" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_fk_sexo_foreign" columns="fk_sexo" ref-table="sexo" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_sexo" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_fk_status_foreign" columns="fk_status" ref-table="chef_status" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_chef_status" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="chef_id_chef_foreign" columns="id_chef" ref-table="users" ref-schema="" ref-catalog="lamesabonita" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="avaliacao_fk_chef_foreign" table="avaliacao" schema="" catalog="lamesabonita" columns="fk_chef"/>
+      <exported-key name="chef_agenda_fk_chef_foreign" table="chef_agenda" schema="" catalog="lamesabonita" columns="fk_chef"/>
+      <exported-key name="curso_fk_chef_foreign" table="curso" schema="" catalog="lamesabonita" columns="fk_chef"/>
+      <exported-key name="menu_fk_chef_foreign" table="menu" schema="" catalog="lamesabonita" columns="fk_chef"/>
+      <exported-key name="reserva_fk_chef_foreign" table="reserva" schema="" catalog="lamesabonita" columns="fk_chef"/>
+      <index name="chef_slug_unique" unique="true" columns="slug"/>
+      <index name="chef_fk_banco_foreign" unique="false" columns="fk_banco"/>
+      <index name="chef_fk_cidade_foreign" unique="false" columns="fk_cidade"/>
+      <index name="chef_fk_estado_foreign" unique="false" columns="fk_estado"/>
+      <index name="chef_fk_pais_index" unique="false" columns="fk_pais"/>
+      <index name="chef_fk_selo_status_foreign" unique="false" columns="fk_selo_status"/>
+      <index name="chef_fk_sexo_foreign" unique="false" columns="fk_sexo"/>
+      <index name="chef_fk_status_foreign" unique="false" columns="fk_status"/>
+      <index name="chef_id_chef_foreign" unique="false" columns="id_chef"/>
+    </table>
+    <table name="chef_agenda" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_chef_agenda" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_chef" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="data" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="hora_de" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="hora_ate" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="deleted_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_chef_agenda"/>
+      <foreign-key name="chef_agenda_fk_chef_foreign" columns="fk_chef" ref-table="chef" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_chef" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="chef_agenda_data_unique" unique="true" columns="data"/>
+      <index name="chef_agenda_fk_chef_foreign" unique="false" columns="fk_chef"/>
+    </table>
+    <table name="chef_selo_status" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_selo_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="descricao" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id_selo_status"/>
+      <exported-key name="chef_fk_selo_status_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_selo_status"/>
+    </table>
+    <table name="chef_status" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_chef_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="descricao" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id_chef_status"/>
+      <exported-key name="chef_fk_status_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_status"/>
+    </table>
+    <table name="cidade" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_cidade" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_estado" sqlType="CHAR" precision="4" scale="0" nullable="false" jdbcType="1"/>
+      <column name="nome_cidade" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_cidade"/>
+      <foreign-key name="cidade_fk_estado_foreign" columns="fk_estado" ref-table="estado" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_estado" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="chef_fk_cidade_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_cidade"/>
+      <exported-key name="degustador_endereco_fk_cidade_foreign" table="degustador_endereco" schema="" catalog="lamesabonita" columns="fk_cidade"/>
+      <index name="cidade_fk_estado_foreign" unique="false" columns="fk_estado"/>
+    </table>
+    <table name="configuracao_site" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="chave" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="valor" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="chave"/>
+    </table>
+    <table name="culinaria" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_culinaria" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nome_culinaria" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_culinaria"/>
+      <exported-key name="curso_culinaria_fk_culinaria_foreign" table="curso_culinaria" schema="" catalog="lamesabonita" columns="fk_culinaria"/>
+      <exported-key name="menu_culinaria_fk_culinaria_foreign" table="menu_culinaria" schema="" catalog="lamesabonita" columns="fk_culinaria"/>
+    </table>
+    <table name="curso" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_curso" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_chef" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="titulo" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
+      <column name="slug" sqlType="VARCHAR" precision="120" scale="0" nullable="false" jdbcType="12"/>
+      <column name="descricao" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="preco" sqlType="DECIMAL" precision="7" scale="2" nullable="false" jdbcType="3"/>
+      <column name="ind_aguardando_aprovacao" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ind_ativo" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="qtd_maxima_cliente" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_curso"/>
+      <foreign-key name="curso_fk_chef_foreign" columns="fk_chef" ref-table="chef" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_chef" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="curso_culinaria_fk_curso_foreign" table="curso_culinaria" schema="" catalog="lamesabonita" columns="fk_curso"/>
+      <exported-key name="curso_imagem_fk_curso_foreign" table="curso_imagem" schema="" catalog="lamesabonita" columns="fk_curso"/>
+      <exported-key name="curso_preco_fk_curso_foreign" table="curso_preco" schema="" catalog="lamesabonita" columns="fk_curso"/>
+      <exported-key name="curso_refeicao_fk_curso_foreign" table="curso_refeicao" schema="" catalog="lamesabonita" columns="fk_curso"/>
+      <exported-key name="favorito_fk_curso_foreign" table="favorito" schema="" catalog="lamesabonita" columns="fk_curso"/>
+      <index name="curso_slug_unique" unique="true" columns="slug"/>
+      <index name="curso_fk_chef_foreign" unique="false" columns="fk_chef"/>
+    </table>
+    <table name="curso_culinaria" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="fk_curso" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_culinaria" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="fk_curso,fk_culinaria"/>
+      <foreign-key name="curso_culinaria_fk_culinaria_foreign" columns="fk_culinaria" ref-table="culinaria" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_culinaria" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="curso_culinaria_fk_curso_foreign" columns="fk_curso" ref-table="curso" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_curso" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="curso_culinaria_fk_culinaria_foreign" unique="false" columns="fk_culinaria"/>
+    </table>
+    <table name="curso_imagem" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_curso_imagem" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_curso" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="nome_imagem" sqlType="VARCHAR" precision="150" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ind_capa" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_curso_imagem"/>
+      <foreign-key name="curso_imagem_fk_curso_foreign" columns="fk_curso" ref-table="curso" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_curso" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="curso_imagem_fk_curso_foreign" unique="false" columns="fk_curso"/>
+    </table>
+    <table name="curso_preco" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_curso_preco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_curso" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="qtd_minima_clientes" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="preco" sqlType="DECIMAL" precision="7" scale="2" nullable="false" jdbcType="3"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_curso_preco"/>
+      <foreign-key name="curso_preco_fk_curso_foreign" columns="fk_curso" ref-table="curso" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_curso" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="curso_preco_fk_curso_foreign" unique="false" columns="fk_curso"/>
+    </table>
+    <table name="curso_refeicao" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="fk_curso" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_tipo_refeicao" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="fk_curso,fk_tipo_refeicao"/>
+      <foreign-key name="curso_refeicao_fk_curso_foreign" columns="fk_curso" ref-table="curso" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_curso" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="curso_refeicao_fk_tipo_refeicao_foreign" columns="fk_tipo_refeicao" ref-table="tipo_refeicao" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_tipo_refeicao" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="curso_refeicao_fk_tipo_refeicao_foreign" unique="false" columns="fk_tipo_refeicao"/>
+    </table>
+    <table name="degustador" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_degustador" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_sexo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="cpf" sqlType="VARCHAR" precision="15" scale="0" nullable="true" jdbcType="12"/>
+      <column name="data_nascimento" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="telefone" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="avatar" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ind_newsletter" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="degustador_fk_sexo_foreign" columns="fk_sexo" ref-table="sexo" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_sexo" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="degustador_id_degustador_foreign" columns="id_degustador" ref-table="users" ref-schema="" ref-catalog="lamesabonita" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="avaliacao_fk_degustador_foreign" table="avaliacao" schema="" catalog="lamesabonita" columns="fk_degustador"/>
+      <exported-key name="degustador_endereco_fk_degustador_foreign" table="degustador_endereco" schema="" catalog="lamesabonita" columns="fk_degustador"/>
+      <exported-key name="favorito_fk_degustador_foreign" table="favorito" schema="" catalog="lamesabonita" columns="fk_degustador"/>
+      <exported-key name="reserva_fk_degustador_foreign" table="reserva" schema="" catalog="lamesabonita" columns="fk_degustador"/>
+      <index name="degustador_fk_sexo_foreign" unique="false" columns="fk_sexo"/>
+      <index name="degustador_id_degustador_foreign" unique="false" columns="id_degustador"/>
+    </table>
+    <table name="degustador_endereco" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_degustador_endereco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="descricao" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fk_degustador" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_cidade" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_estado" sqlType="CHAR" precision="4" scale="0" nullable="false" jdbcType="1"/>
+      <column name="fk_pais" sqlType="CHAR" precision="255" scale="0" nullable="false" jdbcType="1"/>
+      <column name="ind_endereco_principal" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="cep" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="bairro" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="logradouro" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="logradouro_numero" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="complemento" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_degustador_endereco"/>
+      <foreign-key name="degustador_endereco_fk_cidade_foreign" columns="fk_cidade" ref-table="cidade" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_cidade" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="degustador_endereco_fk_degustador_foreign" columns="fk_degustador" ref-table="degustador" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_degustador" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="degustador_endereco_fk_estado_foreign" columns="fk_estado" ref-table="estado" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_estado" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="degustador_endereco_fk_pais_foreign" columns="fk_pais" ref-table="pais" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pais" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="reserva_fk_degustador_endereco_foreign" table="reserva" schema="" catalog="lamesabonita" columns="fk_degustador_endereco"/>
+      <index name="degustador_endereco_fk_cidade_foreign" unique="false" columns="fk_cidade"/>
+      <index name="degustador_endereco_fk_degustador_foreign" unique="false" columns="fk_degustador"/>
+      <index name="degustador_endereco_fk_estado_foreign" unique="false" columns="fk_estado"/>
+      <index name="degustador_endereco_fk_pais_index" unique="false" columns="fk_pais"/>
+    </table>
+    <table name="estado" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_estado" sqlType="CHAR" precision="4" scale="0" nullable="false" jdbcType="1"/>
+      <column name="nome_estado" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fk_pais" sqlType="CHAR" precision="255" scale="0" nullable="false" jdbcType="1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_estado"/>
+      <foreign-key name="estado_fk_pais_foreign" columns="fk_pais" ref-table="pais" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pais" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="chef_fk_estado_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_estado"/>
+      <exported-key name="cidade_fk_estado_foreign" table="cidade" schema="" catalog="lamesabonita" columns="fk_estado"/>
+      <exported-key name="degustador_endereco_fk_estado_foreign" table="degustador_endereco" schema="" catalog="lamesabonita" columns="fk_estado"/>
+      <index name="estado_fk_pais_index" unique="false" columns="fk_pais"/>
+    </table>
+    <table name="failed_jobs" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="connection" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="queue" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="payload" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="failed_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="favorito" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="fk_degustador" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="fk_curso" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <foreign-key name="favorito_fk_curso_foreign" columns="fk_curso" ref-table="curso" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_curso" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="favorito_fk_degustador_foreign" columns="fk_degustador" ref-table="degustador" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_degustador" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="favorito_fk_menu_foreign" columns="fk_menu" ref-table="menu" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_menu" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="favorito_fk_curso_foreign" unique="false" columns="fk_curso"/>
+      <index name="favorito_fk_degustador_foreign" unique="false" columns="fk_degustador"/>
+      <index name="favorito_fk_menu_foreign" unique="false" columns="fk_menu"/>
+    </table>
+    <table name="incluso_preco" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_incluso_preco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="descricao" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="fk_tipo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_incluso_preco"/>
+      <foreign-key name="incluso_preco_fk_tipo_foreign" columns="fk_tipo" ref-table="incluso_preco_tipo" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_incluso_preco_tipo" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="incluso_preco_fk_tipo_foreign" unique="false" columns="fk_tipo"/>
+    </table>
+    <table name="incluso_preco_tipo" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_incluso_preco_tipo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="descricao" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_incluso_preco_tipo"/>
+      <exported-key name="incluso_preco_fk_tipo_foreign" table="incluso_preco" schema="" catalog="lamesabonita" columns="fk_tipo"/>
+    </table>
+    <table name="jobs" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id" sqlType="BIGINT UNSIGNED" precision="20" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="queue" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="payload" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="attempts" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="reserved" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="reserved_at" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="available_at" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="jobs_queue_reserved_reserved_at_index" unique="false" columns="queue,reserved,reserved_at"/>
+    </table>
+    <table name="menu" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_chef" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="titulo" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
+      <column name="slug" sqlType="VARCHAR" precision="120" scale="0" nullable="false" jdbcType="12"/>
+      <column name="aperitivo" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="entrada" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="prato_principal" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="preco" sqlType="DECIMAL" precision="7" scale="2" nullable="false" jdbcType="3"/>
+      <column name="sobremesa" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ind_aguardando_aprovacao" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ind_ativo" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="qtd_maxima_cliente" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_menu"/>
+      <foreign-key name="menu_fk_chef_foreign" columns="fk_chef" ref-table="chef" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_chef" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="favorito_fk_menu_foreign" table="favorito" schema="" catalog="lamesabonita" columns="fk_menu"/>
+      <exported-key name="menu_culinaria_fk_menu_foreign" table="menu_culinaria" schema="" catalog="lamesabonita" columns="fk_menu"/>
+      <exported-key name="menu_imagem_fk_menu_foreign" table="menu_imagem" schema="" catalog="lamesabonita" columns="fk_menu"/>
+      <exported-key name="menu_preco_fk_menu_foreign" table="menu_preco" schema="" catalog="lamesabonita" columns="fk_menu"/>
+      <exported-key name="menu_refeicao_fk_menu_foreign" table="menu_refeicao" schema="" catalog="lamesabonita" columns="fk_menu"/>
+      <exported-key name="reserva_fk_menu_foreign" table="reserva" schema="" catalog="lamesabonita" columns="fk_menu"/>
+      <index name="menu_slug_unique" unique="true" columns="slug"/>
+      <index name="menu_fk_chef_foreign" unique="false" columns="fk_chef"/>
+    </table>
+    <table name="menu_culinaria" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="fk_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_culinaria" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="fk_menu,fk_culinaria"/>
+      <foreign-key name="menu_culinaria_fk_culinaria_foreign" columns="fk_culinaria" ref-table="culinaria" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_culinaria" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="menu_culinaria_fk_menu_foreign" columns="fk_menu" ref-table="menu" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_menu" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="menu_culinaria_fk_culinaria_foreign" unique="false" columns="fk_culinaria"/>
+    </table>
+    <table name="menu_imagem" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_menu_imagem" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="nome_imagem" sqlType="VARCHAR" precision="150" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ind_capa" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_menu_imagem"/>
+      <foreign-key name="menu_imagem_fk_menu_foreign" columns="fk_menu" ref-table="menu" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_menu" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="menu_imagem_fk_menu_foreign" unique="false" columns="fk_menu"/>
+    </table>
+    <table name="menu_preco" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_menu_preco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="qtd_minima_clientes" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="preco" sqlType="DECIMAL" precision="7" scale="2" nullable="false" jdbcType="3"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_menu_preco"/>
+      <foreign-key name="menu_preco_fk_menu_foreign" columns="fk_menu" ref-table="menu" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_menu" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="menu_preco_fk_menu_foreign" unique="false" columns="fk_menu"/>
+    </table>
+    <table name="menu_refeicao" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="fk_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_tipo_refeicao" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="fk_menu,fk_tipo_refeicao"/>
+      <foreign-key name="menu_refeicao_fk_menu_foreign" columns="fk_menu" ref-table="menu" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_menu" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="menu_refeicao_fk_tipo_refeicao_foreign" columns="fk_tipo_refeicao" ref-table="tipo_refeicao" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_tipo_refeicao" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="menu_refeicao_fk_tipo_refeicao_foreign" unique="false" columns="fk_tipo_refeicao"/>
+    </table>
+    <table name="migrations" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="migration" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="batch" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+    </table>
+    <table name="pagamento" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_pagamento" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_reserva" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_pagamento_metodo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_pagamento_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="pagamento_status_info" sqlType="VARCHAR" precision="150" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_pagamento"/>
+      <foreign-key name="pagamento_fk_pagamento_metodo_foreign" columns="fk_pagamento_metodo" ref-table="pagamento_metodo" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pagamento_metodo" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="pagamento_fk_pagamento_status_foreign" columns="fk_pagamento_status" ref-table="pagamento_status" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pagamento_status" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="pagamento_fk_reserva_foreign" columns="fk_reserva" ref-table="reserva" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_reserva" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="pagamento_tracking_fk_pagamento_foreign" table="pagamento_tracking" schema="" catalog="lamesabonita" columns="fk_pagamento"/>
+      <index name="pagamento_fk_pagamento_metodo_foreign" unique="false" columns="fk_pagamento_metodo"/>
+      <index name="pagamento_fk_pagamento_status_foreign" unique="false" columns="fk_pagamento_status"/>
+      <index name="pagamento_fk_reserva_foreign" unique="false" columns="fk_reserva"/>
+    </table>
+    <table name="pagamento_cartao" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_pagamento_cartao" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_pagamento" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="numero_cartao" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="titular_cartao" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="valido_ate_mes" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="valido_ate_ano" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="codigo_seguranca" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_pagamento_cartao"/>
+    </table>
+    <table name="pagamento_metodo" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_pagamento_metodo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nome_pagamento_metodo" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_pagamento_metodo"/>
+      <exported-key name="pagamento_fk_pagamento_metodo_foreign" table="pagamento" schema="" catalog="lamesabonita" columns="fk_pagamento_metodo"/>
+      <exported-key name="pagamento_tracking_fk_pagamento_metodo_foreign" table="pagamento_tracking" schema="" catalog="lamesabonita" columns="fk_pagamento_metodo"/>
+    </table>
+    <table name="pagamento_status" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_pagamento_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nome_pagamento_status" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_pagamento_status"/>
+      <exported-key name="pagamento_fk_pagamento_status_foreign" table="pagamento" schema="" catalog="lamesabonita" columns="fk_pagamento_status"/>
+      <exported-key name="pagamento_tracking_fk_pagamento_status_foreign" table="pagamento_tracking" schema="" catalog="lamesabonita" columns="fk_pagamento_status"/>
+    </table>
+    <table name="pagamento_tracking" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_pagamento_tracking" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_pagamento" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_reserva" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_pagamento_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_pagamento_metodo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tracking_descricao" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_pagamento_tracking"/>
+      <foreign-key name="pagamento_tracking_fk_pagamento_foreign" columns="fk_pagamento" ref-table="pagamento" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pagamento" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="pagamento_tracking_fk_pagamento_metodo_foreign" columns="fk_pagamento_metodo" ref-table="pagamento_metodo" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pagamento_metodo" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="pagamento_tracking_fk_pagamento_status_foreign" columns="fk_pagamento_status" ref-table="pagamento_status" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_pagamento_status" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="pagamento_tracking_fk_reserva_foreign" columns="fk_reserva" ref-table="reserva" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_reserva" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="pagamento_tracking_fk_pagamento_foreign" unique="false" columns="fk_pagamento"/>
+      <index name="pagamento_tracking_fk_pagamento_metodo_foreign" unique="false" columns="fk_pagamento_metodo"/>
+      <index name="pagamento_tracking_fk_pagamento_status_foreign" unique="false" columns="fk_pagamento_status"/>
+      <index name="pagamento_tracking_fk_reserva_foreign" unique="false" columns="fk_reserva"/>
+    </table>
+    <table name="pais" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_pais" sqlType="CHAR" precision="255" scale="0" nullable="false" jdbcType="1"/>
+      <column name="nome_pais" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_pais"/>
+      <exported-key name="chef_fk_pais_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_pais"/>
+      <exported-key name="degustador_endereco_fk_pais_foreign" table="degustador_endereco" schema="" catalog="lamesabonita" columns="fk_pais"/>
+      <exported-key name="estado_fk_pais_foreign" table="estado" schema="" catalog="lamesabonita" columns="fk_pais"/>
+    </table>
+    <table name="password_resets" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="token" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <index name="password_resets_email_index" unique="false" columns="email"/>
+      <index name="password_resets_token_index" unique="false" columns="token"/>
+    </table>
+    <table name="reserva" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_reserva" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_degustador" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_degustador_endereco" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_chef" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_menu" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fk_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="data_reserva" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="horario_reserva" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="qtd_clientes" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="preco_por_cliente" sqlType="DECIMAL UNSIGNED" precision="5" scale="2" nullable="false" jdbcType="3"/>
+      <column name="taxa_lmb" sqlType="DECIMAL UNSIGNED" precision="5" scale="2" nullable="false" jdbcType="3" def="MC4wMA=="/>
+      <column name="preco_total" sqlType="DECIMAL UNSIGNED" precision="7" scale="2" nullable="false" jdbcType="3"/>
+      <column name="observacao" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_reserva"/>
+      <foreign-key name="reserva_fk_chef_foreign" columns="fk_chef" ref-table="chef" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_chef" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reserva_fk_degustador_endereco_foreign" columns="fk_degustador_endereco" ref-table="degustador_endereco" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_degustador_endereco" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reserva_fk_degustador_foreign" columns="fk_degustador" ref-table="degustador" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_degustador" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reserva_fk_menu_foreign" columns="fk_menu" ref-table="menu" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_menu" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reserva_fk_status_foreign" columns="fk_status" ref-table="reserva_status" ref-schema="" ref-catalog="lamesabonita" ref-columns="id_reserva_status" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="pagamento_fk_reserva_foreign" table="pagamento" schema="" catalog="lamesabonita" columns="fk_reserva"/>
+      <exported-key name="pagamento_tracking_fk_reserva_foreign" table="pagamento_tracking" schema="" catalog="lamesabonita" columns="fk_reserva"/>
+      <index name="reserva_fk_chef_foreign" unique="false" columns="fk_chef"/>
+      <index name="reserva_fk_degustador_endereco_foreign" unique="false" columns="fk_degustador_endereco"/>
+      <index name="reserva_fk_degustador_foreign" unique="false" columns="fk_degustador"/>
+      <index name="reserva_fk_menu_foreign" unique="false" columns="fk_menu"/>
+      <index name="reserva_fk_status_foreign" unique="false" columns="fk_status"/>
+    </table>
+    <table name="reserva_status" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_reserva_status" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nome_status" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_reserva_status"/>
+      <exported-key name="reserva_fk_status_foreign" table="reserva" schema="" catalog="lamesabonita" columns="fk_status"/>
+    </table>
+    <table name="sexo" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_sexo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="descricao" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_sexo"/>
+      <exported-key name="chef_fk_sexo_foreign" table="chef" schema="" catalog="lamesabonita" columns="fk_sexo"/>
+      <exported-key name="degustador_fk_sexo_foreign" table="degustador" schema="" catalog="lamesabonita" columns="fk_sexo"/>
+    </table>
+    <table name="tipo_refeicao" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id_tipo_refeicao" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nome_tipo_refeicao" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id_tipo_refeicao"/>
+      <exported-key name="curso_refeicao_fk_tipo_refeicao_foreign" table="curso_refeicao" schema="" catalog="lamesabonita" columns="fk_tipo_refeicao"/>
+      <exported-key name="menu_refeicao_fk_tipo_refeicao_foreign" table="menu_refeicao" schema="" catalog="lamesabonita" columns="fk_tipo_refeicao"/>
+    </table>
+    <table name="users" schema="" catalog="lamesabonita" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ind_chef" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ind_admin" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="ind_email_confirmado" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="remember_token" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="chef_id_chef_foreign" table="chef" schema="" catalog="lamesabonita" columns="id_chef"/>
+      <exported-key name="degustador_id_degustador_foreign" table="degustador" schema="" catalog="lamesabonita" columns="id_degustador"/>
+      <index name="users_email_unique" unique="true" columns="email"/>
+    </table>
+  </data-source>
+</component>

@@ -2,10 +2,10 @@
 
 namespace App\Helpers\Menu;
 
-use App\Helpers\Menu\MenuBuilder;
+use App\Helpers\Menu\BaseMenu;
 use Illuminate\Routing\Router;
 
-class MenuPage extends MenuBuilder {
+class MenuPage extends BaseMenu {
 
     private $target;
 
@@ -18,7 +18,7 @@ class MenuPage extends MenuBuilder {
     }
 
     public function registerRoutes(Router $router) {
-        $route = $router->get($this->route, $this->target);
+        $route = $router->get($this->route, $this->target)->middleware('auth');
 
         if (!is_null($this->route)) {
             $route->name($this->name);
@@ -27,6 +27,10 @@ class MenuPage extends MenuBuilder {
 
     public function getRoute() {
         return $this->getBaseRoute();
+    }
+
+    public function getTarget() {
+        return $this->target;
     }
 
 }

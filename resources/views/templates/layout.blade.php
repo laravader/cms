@@ -12,6 +12,7 @@
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="/assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/core.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/components.css" rel="stylesheet" type="text/css">
@@ -27,17 +28,9 @@
     <script type="text/javascript" src="/assets/js/plugins/ui/drilldown.js"></script>
     <!-- /core JS files -->
 
-    <!-- Theme JS files -->
-    <script type="text/javascript" src="/assets/js/plugins/visualization/d3/d3.min.js"></script>
-    <script type="text/javascript" src="/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
-    <script type="text/javascript" src="/assets/js/plugins/forms/styling/switchery.min.js"></script>
-    <script type="text/javascript" src="/assets/js/plugins/forms/styling/uniform.min.js"></script>
-    <script type="text/javascript" src="/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
-    <script type="text/javascript" src="/assets/js/plugins/ui/moment/moment.min.js"></script>
-    <script type="text/javascript" src="/assets/js/plugins/pickers/daterangepicker.js"></script>
 
-    <script type="text/javascript" src="/assets/js/core/app.js"></script>
-    <script type="text/javascript" src="/assets/js/pages/dashboard.js"></script>
+    <!-- Theme JS files -->
+    @yield('header.js')
     <!-- /theme JS files -->
 
 </head>
@@ -47,7 +40,7 @@
     <!-- Main navbar -->
     <div class="navbar navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand navbar-cms" href="{{ route('pages.home') }}">
+            <a class="navbar-brand navbar-cms" href="/">
                 <img src="/assets/images/logo_icon_light.png" alt="">
                 <span class="logo-name">Laravader CMS</span>
             </a>
@@ -181,18 +174,12 @@
             <div class="page-title">
                 <h4>
                     <i class="icon-arrow-left52 position-left"></i>
-                    @yield('titulo', '')
-                    <small class="display-block">@yield('subtitulo')</small>
+                    @yield('page.title')
                 </h4>
+                @yield('page.subtitle')
             </div>
 
-            <div class="heading-elements">
-                <div class="heading-btn-group">
-                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-                </div>
-            </div>
+            @yield('page.heading-elements')
         </div>
     </div>
     <!-- /page header -->
@@ -207,7 +194,7 @@
             <!-- Main content -->
             <div class="content-wrapper">
 
-                @yield('conteudo')
+                @yield('content')
 
             </div>
             <!-- /main content -->
@@ -220,6 +207,8 @@
             &copy; 2015. <a href="#">Laravader CMS</a> por <a href="http://themeforest.net/user/Kopyov" target="_blank">Leonardo Caldas</a>
         </div>
         <!-- /footer -->
+
+        @yield('footer.js')
 
     </div>
     <!-- /page container -->

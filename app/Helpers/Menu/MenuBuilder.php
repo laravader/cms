@@ -2,40 +2,36 @@
 
 namespace App\Helpers\Menu;
 
-abstract class MenuBuilder {
+use Closure;
+use App\Helpers\Patterns\Singleton;
 
-    protected $route;
-    protected $name;
-    protected $icon;
+class MenuBuilder {
 
-    public abstract function getNamespace();
-    public abstract function getRoute();
+    use Singleton;
 
-    public function route($route) {
-        $this->route = $route;
-        return $this;
+    private $list = [];
+
+    public function page($route) {
+        return $this->add(new MenuPage($route));
     }
 
-    public function icon($icon) {
-        $this->icon = $icon;
-        return $this;
+    public function crud($target) {
+        return $this->add(new MenuCrud($target));
     }
 
-    public function name($name) {
-        $this->name = $name;
-        return $this;
+    public function submenu(Closure $closure) {
+        return $this->add(new Submenu($closure));
     }
 
-    public function getIcon() {
-        return $this->icon;
+    private function add($menu) {
+        $index = count($this->list);
+        $this->list[$index] = $menu;
+        return $this->list[$index];
     }
 
-    public function getBaseRoute() {
-        return $this->route;
+    public function get() {
+        return $this->list;
     }
 
-    public function getName() {
-        return $this->name;
-    }
 
 }

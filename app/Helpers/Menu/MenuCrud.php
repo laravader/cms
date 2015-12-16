@@ -2,10 +2,17 @@
 
 namespace App\Helpers\Menu;
 
-use App\Helpers\Menu\MenuBuilder;
+use App\Helpers\Menu\BaseMenu;
 use Illuminate\Routing\Router;
 
-class MenuCrud extends MenuBuilder {
+class MenuCrud extends BaseMenu {
+
+    const ROUTE_LIST = 'list';
+    const ROUTE_INSERT_VIEW = 'add.get';
+    const ROUTE_INSERT_REQUEST = 'add.post';
+    const ROUTE_UPDATE_VIEW = 'edit.get';
+    const ROUTE_UPDATE_REQUEST = 'edit.post';
+    const ROUTE_DELETE = 'delete';
 
     private $target;
 
@@ -18,12 +25,20 @@ class MenuCrud extends MenuBuilder {
     }
 
     public function registerRoutes(Router $router) {
-        $router->get($this->buildRoute('listar-registros'), $this->buildTarget("getListarRegistros"))->name($this->buildRouteName("listar"));
-        $router->get($this->buildRoute('adicionar'),        $this->buildTarget("getAdicionarRegistro"))->name($this->buildRouteName("adicionar.get"));
-        $router->post($this->buildRoute('adicionar'),       $this->buildTarget("postAdicionarRegistro"))->name($this->buildRouteName("adicionar.post"));
-        $router->get($this->buildRoute('editar'),           $this->buildTarget("getEditarRegistro"))->name($this->buildRouteName("editar.get"));
-        $router->post($this->buildRoute('editar'),          $this->buildTarget("postEditarRegistro"))->name($this->buildRouteName("editar.post"));
-        $router->get($this->buildRoute('deletar'),          $this->buildTarget("getDeletar"))->name($this->buildRouteName("deletar.get"));
+        $this->registerGET($router,  config('admin.routes.crud.list'),    'getList',    self::ROUTE_LIST);
+        $this->registerGET($router,  config('admin.routes.crud.insert'),  'getInsert',  self::ROUTE_INSERT_VIEW);
+        $this->registerGET($router,  config('admin.routes.crud.update'),  'getUpdate',  self::ROUTE_UPDATE_VIEW);
+        $this->registerGET($router,  config('admin.routes.crud.delete'),  'getDelete',  self::ROUTE_DELETE);
+        $this->registerPOST($router, config('admin.routes.crud.insert'),  'postInsert', self::ROUTE_INSERT_REQUEST);
+        $this->registerPOST($router, config('admin.routes.crud.update'),  'postUpdate', self::ROUTE_UPDATE_REQUEST);
+    }
+
+    public function registerGET(Router $router, $route, $target, $name) {
+        $router->get($this->buildRoute($route), $this->buildTarget($target))->name($this->buildRouteName($name))->middleware('auth');
+    }
+
+    public function registerPOST(Router $router, $route, $target, $name) {
+        $router->post($this->buildRoute($route), $this->buildTarget($target))->name($this->buildRouteName($name))->middleware('auth');
     }
 
     private function buildRoute($route) {
@@ -38,8 +53,12 @@ class MenuCrud extends MenuBuilder {
         return $this->getName() . "." . $name;
     }
 
+    public function getTarget() {
+        return $this->target;
+    }
+
     public function getRoute() {
-        return route($this->buildRouteName('listar'));
+        return route($this->buildRouteName(self::ROUTE_LIST));
     }
 
 }

@@ -9,25 +9,23 @@ class MenuRenderer {
     private $list;
 
     public function get() {
-        $this->list = $this->build(config('menu'));
+        $this->list = $this->build(MenuBuilder::getInstance()->get());
         return $this->list;
     }
 
-    public function build($menus) {
+    public function build(array $menus) {
         $listMenus = [];
 
         foreach ($menus as $name => $menu) {
             $std = new stdClass();
-            $std->has_submenus = false;
-            $std->label = $name;
-            $std->icon = "";
+            $std->has_submenus = $menu->hasSubmenus();
+            $std->label        = $menu->getLabel();
+            $std->icon         = $menu->getIcon();
 
-            if (is_array($menu)) {
+            if ($menu->hasSubmenus()) {
                 $std->route = "#";
-                $std->has_submenus = true;
-                $std->submenus = $this->build($menu);
+                $std->submenus = $this->build($menu->getSubmenuBuilder()->get());
             } else {
-                $std->icon = $menu->getIcon();
                 $std->route = $menu->getRoute();
             }
 
