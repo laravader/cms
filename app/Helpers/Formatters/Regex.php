@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Formatters;
 
-class Currency {
+class Regex {
+
 
 }

@@ -2,9 +2,9 @@
 
 namespace App\Helpers\Datatable;
 
-class DatatableBody {
+class DatatableBodyOptions {
 
-    public static function format($rows, $configurations, $primaryKeys) {
+    public static function fill($rows, $configurations, $primaryKeys) {
         $formattedRows = [];
 
         foreach ($rows as $indexRow => $row) {
@@ -13,9 +13,10 @@ class DatatableBody {
 
             foreach ($row as $columnName => $columnValue) {
                 $configuration = isset($configurations[$columnName]) ? $configurations[$columnName] : [];
-                $formatedRow[$columnName] = self::buildConfigurations($columnName, $columnValue, $configuration);
+                $formatedRow[$columnName] = self::build($columnName, $columnValue, $configuration);
 
                 if (in_array($columnName, $primaryKeys)) {
+                    $formatedRow[$columnName]['primary_key'] = true;
                     $rowKeys[$columnName] = $columnValue;
                 }
 
@@ -30,7 +31,7 @@ class DatatableBody {
         return $formattedRows;
     }
 
-    public static function buildConfigurations($columnName, $columnValue, $overrides) {
+    public static function build($columnName, $columnValue, $overrides) {
         if (isset($overrides['format'])) {
             $columnValue = DatatableFormatter::apply($columnValue, $overrides['format']);
         }

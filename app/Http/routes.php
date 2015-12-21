@@ -14,3 +14,7 @@
 Route::get('login', 'Auth\AuthController@getLogin')->name('login.formulario');
 Route::post('login', 'Auth\AuthController@postLogin')->name('login.submeter_formulario');
 Route::get('logout', 'Auth\AuthController@getLogout')->name('login.deslogar');
+
+//DB::listen(function($sql, $bindings, $time) {
+//    echo $sql;
+//});

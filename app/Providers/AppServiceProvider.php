@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
                 $this->map($menu->getSubmenuBuilder(), $router);
                 continue;
             } else if (!$menu instanceof BaseMenu) {
-                throw new UnexpectedValueException("Expect menu to be instanceof BaseMenu.");
+                throw new UnexpectedValueException("Expect menu to be an instanceof BaseMenu.");
             }
 
             $router->group(['namespace' => $menu->getNamespace()], function ($router) use ($menu) {

@@ -33,48 +33,47 @@ $(function() {
         },
         preDrawCallback: function() {
             $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+        },
+        initComplete: function() {
+            $("th[data-orderable=false]").removeClass("sorting_asc").removeClass("sorting_desc");
         }
     });
 
+    var parameters = typeof options != "undefined" ? options : {};
+
+    var datatableParameters = $.extend(parameters, {
+        orderCellsTop: true
+    });
 
     // Basic datatable
-    $('.datatable-basic').DataTable();
+    var table = $('.datatable-basic')
+        .DataTable(datatableParameters);
 
-
-    // Alternative pagination
-    $('.datatable-pagination').DataTable({
-        pagingType: "simple",
-        language: {
-            paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
-        }
-    });
-
-
-    // Datatable with saving state
-    $('.datatable-save-state').DataTable({
-        stateSave: true
-    });
-
-
-    // Scrollable datatable
-    $('.datatable-scroll-y').DataTable({
-        autoWidth: true,
-        scrollY: 300
-    });
-
-
+    // Apply the filter
+    $('.datatable-basic').find("tr#filterrow input, tr#filterrow select").on('change', function () {
+        table
+            .column( $(this).parent().index() )
+            .search( this.value )
+            .draw();
+    } );
 
     // External table additions
     // ------------------------------
-
-    // Add placeholder to the datatable filter option
-    $('.dataTables_filter input[type=search]').attr('placeholder','Type to filter...');
-
 
     // Enable Select2 select for the length option
     $('.dataTables_length select').select2({
         minimumResultsForSearch: Infinity,
         width: 'auto'
     });
+
+    // Add placeholder to the datatable filter option
+    $('.dataTables_filter').hide();
+    $('.dataTables_filter input[type=search]').unbind('keyup search input')
+    .bind('keypress', function (e) {
+        if (e.which == 13) {
+            table.search($(this).val()).draw();
+        }
+    });
+
 
 });
