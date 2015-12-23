@@ -36,6 +36,14 @@ class DatatableBodyOptions {
             $columnValue = DatatableFormatter::apply($columnValue, $overrides['format']);
         }
 
+        if (isset($overrides['format_prefix'])) {
+            $columnValue = $overrides['format_prefix'] . $columnValue;
+        }
+
+        if (isset($overrides['format_sufix'])) {
+            $columnValue = $columnValue . $overrides['format_sufix'];
+        }
+
         $default = [
             'align'       => 'left',
             'name'        => $columnName,

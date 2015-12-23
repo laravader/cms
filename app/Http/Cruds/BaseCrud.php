@@ -7,11 +7,13 @@ use App\Helpers\Datatable\DatatableAjaxRequest;
 use App\Helpers\Renderer\CrudRenderer;
 use App\Http\Controllers\Controller;
 use App\Helpers\Datatable\Datatable;
+use App\Helpers\Providers\CrudProvider as Provider;
+use App\Helpers\Forms\Form;
 use Illuminate\Http\Request;
 
 abstract class BaseCrud extends Controller {
 
-    use Datatable;
+    use Provider, Datatable, Form;
 
     private $request;
 
@@ -44,15 +46,43 @@ abstract class BaseCrud extends Controller {
     }
 
     public function getInsert() {
-        return 'getAdicionarRegistro';
+        return view('crud.insert', [
+            'page_title'        => CrudRenderer::getPageTitle(),
+            'breadcrumb'        => CrudRenderer::getPageBreadcrumb(),
+            'fields'            => $this->getInsertFields(),
+            'route'             => [
+                'list'   => CrudRenderer::getListRoute(),
+                'insert' => CrudRenderer::getInsertRoute()
+            ],
+        ]);
+    }
+
+    public function postInsert() {
+        $this->processInsert($this->request->all());
+        return redirect()->back()->with('success', 'Registro inserido com sucesso.');
+    }
+
+    public function postUpdate() {
+        $this->processUpdate($this->request->all());
+        return redirect()->back()->with('success', 'Registro atualizado com sucesso.');
     }
 
     public function getUpdate() {
-        return 'getEditarRegistro';
+        return view('crud.update', [
+            'page_title'        => CrudRenderer::getPageTitle(),
+            'breadcrumb'        => CrudRenderer::getPageBreadcrumb(),
+            'fields'            => $this->getUpdateFields($this->request->all()),
+            'route'             => [
+                'list'   => CrudRenderer::getListRoute(),
+                'insert' => CrudRenderer::getInsertRoute(),
+                'update' => CrudRenderer::getUpdateRoute($this->request->all())
+            ],
+        ]);
     }
 
     public function getDelete() {
-        return 'getDeletar';
+        $this->processDelete($this->request->all());
+        return redirect()->back()->with('success', 'Registro deletado com sucesso.');
     }
 
     protected function setupActions(DatatableActionsBuilder $builder) {

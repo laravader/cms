@@ -26,6 +26,7 @@
     <script type="text/javascript" src="/assets/js/plugins/loaders/blockui.min.js"></script>
     <script type="text/javascript" src="/assets/js/plugins/ui/nicescroll.min.js"></script>
     <script type="text/javascript" src="/assets/js/plugins/ui/drilldown.js"></script>
+    <script type="text/javascript" src="/assets/js/plugins/notifications/sweet_alert.min.js"></script>
     <!-- /core JS files -->
 
 
@@ -212,6 +213,17 @@
 
     </div>
     <!-- /page container -->
+
+    @if (session()->has('success'))
+        <script type="text/javascript">
+            swal({
+                title: "Sucesso!",
+                text: "{{ session('success') }}",
+                confirmButtonColor: "#66BB6A",
+                type: "success"
+            });
+        </script>
+    @endif
 
 </body>
 </html>

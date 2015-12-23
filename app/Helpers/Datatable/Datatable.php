@@ -9,15 +9,13 @@ use App\Database\Queries;
 
 trait Datatable {
 
-    use DatatableProvider;
-
     /**
      * Return the datatable's header columns formatted with options
      *
      * @return array
      */
     protected function getDatatableColumns() {
-        return DatatableHeaderOptions::fill($this->getColumns(), $this->getOverridedHeaderColumns(), $this->getDefaultProperties());
+        return DatatableHeaderOptions::fill($this->getColumns(), $this->getCustomDatatableColumns(), $this->getDefaultProperties());
     }
 
     /**
@@ -34,10 +32,18 @@ trait Datatable {
             return [];
         }
 
-        $rows = Queries::getTableRows($this->getTable(), $this->getComputedColumns());
+        // If a custom list query was not defined
+        if (!$this->hasCustomDatatableQuery()) {
+            $rows = Queries::getTableRows($this->getTable(), $this->getComputedColumns());
+
+        // If it was
+        } else {
+            $rows = $this->getCustomDatatableQuery()->get();
+        }
+
         $keys = $this->getTablePrimaryKeys();
 
-        return DatatableBodyOptions::fill($rows, $this->getOverridedBodyColumns(), $keys);
+        return DatatableBodyOptions::fill($rows, $this->getCustomDatatableColumns(), $keys);
     }
 
     /**
@@ -51,7 +57,7 @@ trait Datatable {
     public function getDatatableAjaxRows(DatatableAjaxRequest $ajaxRequest) {
 
         // If a custom list query was not defined
-        if (!$this->hasOverridedQueryList()) {
+        if (!$this->hasCustomDatatableQuery()) {
             $result = Queries::getFilteredAjaxTableRows(
                 $this->getTable(),
                 $this->getColumns(),
@@ -64,7 +70,7 @@ trait Datatable {
         // If it was
         } else {
             $result = Queries::getFilteredQueryListRows(
-                $this->getOverridedListQuery(),
+                $this->getCustomDatatableQuery(),
                 $ajaxRequest->getPagitionStart(),
                 $ajaxRequest->getPaginationLength(),
                 $ajaxRequest->getFilters($this->getResolvedAmbiguousColumns()),
@@ -73,7 +79,7 @@ trait Datatable {
         }
 
         return new DatatableAjaxResponse(
-            DatatableBodyOptions::fill($result['rows'], $this->getOverridedBodyColumns(), $this->getTablePrimaryKeys()),
+            DatatableBodyOptions::fill($result['rows'], $this->getCustomDatatableColumns(), $this->getTablePrimaryKeys()),
             $this->getDatatableActions(),
             $result['count_filtered'],
             $result['count_total'],
@@ -111,22 +117,13 @@ trait Datatable {
     }
 
     /**
-     * Return the primary keys from the crud's table
-     *
-     * @return array
-     */
-    protected function getTablePrimaryKeys() {
-        return Queries::getTablePrimaryKeys($this->getTable());
-    }
-
-    /**
      * Return the columns from the crud's table, if an override query was set,
      * then it will return the columns listed in the query
      *
      * @return array
      */
     private function getColumns() {
-        if ($this->hasOverridedQueryList()) {
+        if ($this->hasCustomDatatableQuery()) {
             return $this->getOverridedQueryColumns();
         }
 
@@ -139,6 +136,6 @@ trait Datatable {
      * @return array
      */
     private function getOverridedQueryColumns() {
-        return Queries::getQueryColumns($this->getOverridedListQuery());
+        return Queries::getQueryColumns($this->getCustomDatatableQuery());
     }
 }

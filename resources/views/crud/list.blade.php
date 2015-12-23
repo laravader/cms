@@ -6,6 +6,7 @@
     @endif
 
     <script type="text/javascript" src="/assets/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="/assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
     <script type="text/javascript" src="/assets/js/plugins/forms/selects/select2.min.js"></script>
     <script type="text/javascript" src="/assets/js/core/app.js"></script>
     <script type="text/javascript" src="/assets/js/pages/datatables_basic.js"></script>
@@ -54,25 +55,16 @@
                     @endforeach
 
                     @if(count($datatable['actions']))
-                        <th class="text-center" width="5%">Ações</th>
+                        <th class="text-center" data-orderable="false" width="5%">Ações</th>
                     @endif
                 </tr>
 
                 @if($datatable['filter'])
-                <tr id="filterrow">
+                <tr id="filterrow" class="hidden">
                     @foreach($datatable['columns'] as $headerColumn)
                         @if($headerColumn["filter"])
                             <td>
-                                @if(isset($headerColumn['filter_select']))
-                                    <select class="form-control input-sm" name="" id="">
-                                        <option value="">Todos</option>
-                                        @foreach($headerColumn['filter_select'] as $filterKey => $filterValue)
-                                            <option value="{{ $filterKey }}">{{ $filterValue }}</option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <input type="text" class="form-control input-sm" />
-                                @endif
+                                {!! $headerColumn['type']->getField() !!}
                             </td>
                         @else
                             <td>&nbsp;</td>
@@ -89,7 +81,7 @@
                 @foreach($datatable['rows'] as $row)
                     <tr>
                         @foreach($row['columns'] as $column)
-                            <td class="text-{{ $column['align'] }}">{{ $column['value'] }}</td>
+                            <td class="text-{{ $column['align'] }}">{!! $column['value'] !!}</td>
                         @endforeach
 
                         @if(count($datatable['actions']))

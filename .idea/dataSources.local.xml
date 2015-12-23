@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="MySQL - lamesabonita@localhost" uuid="627c06ce-510b-42a1-bc04-4a795bcccd0a">
-      <user-name>root</user-name>
-      <user-password>dfd8dfc5dfc5dfde</user-password>
-      <schema-pattern>lamesabonita.*</schema-pattern>
-      <default-schemas>lamesabonita.*</default-schemas>
-    </data-source>
+    <data-source name="MySQL - lamesabonita@localhost" uuid="627c06ce-510b-42a1-bc04-4a795bcccd0a" />
   </component>
 </project>

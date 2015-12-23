@@ -131,14 +131,31 @@ class Queries {
      * @param string $keyColumn
      * @param string $descriptionColumn
      */
-    public static function getTableSelect($table, $keyColumn, $descriptionColumn) {
+    public static function getTableFilter($table, $keyColumn, $descriptionColumn) {
         $result = DB::table($table)->select($keyColumn, $descriptionColumn)->get();
-        $formattedResult = [];
 
-        foreach ($result as $row) {
-            $formattedResult[$row->{$keyColumn}] = $row->{$descriptionColumn};
+    }
+
+    public static function applyClause(Builder $query, array $where) {
+        foreach ($where as $clauseName => $clauseValue) {
+            $query->where($clauseName, '=', $clauseValue);
         }
+        return $query;
+    }
 
-        return $formattedResult;
+    public static function insert($tableName, $columns) {
+        return DB::table($tableName)->insert($columns);
+    }
+
+    public static function update($tableName, $columns, $where) {
+        return self::applyClause(DB::table($tableName), $where)->update($columns);
+    }
+
+    public static function delete($tableName, $where) {
+        return self::applyClause(DB::table($tableName), $where)->delete();
+    }
+
+    public static function getSingleTableRow($tableName, $where) {
+        return self::applyClause(DB::table($tableName), $where)->first();
     }
 }

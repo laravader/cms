@@ -16,7 +16,7 @@ class Metadata {
         return Schema::getColumnListing($table);
     }
 
-    public function getTablePrimaryKeys($table) {
+    public static function getTablePrimaryKeys($table) {
         return Queries::getTablePrimaryKeys($table);
     }
 

@@ -22,7 +22,7 @@ $(function() {
             orderable: false,
             width: '100px'
         }],
-        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+        dom: '<"datatable-header"Bl><"datatable-scroll"t><"datatable-footer"ip>',
         language: {
             search: '<span>Filter:</span> _INPUT_',
             lengthMenu: '<span>Show:</span> _MENU_',
@@ -42,7 +42,20 @@ $(function() {
     var parameters = typeof options != "undefined" ? options : {};
 
     var datatableParameters = $.extend(parameters, {
-        orderCellsTop: true
+        orderCellsTop: true,
+        buttons: [
+            {
+                text: '<i class="fa fa-search position-left"></i> Buscar',
+                className: 'btn btn-large btn-default',
+                action: function(e, dt, node, config) {
+                    if ($("#filterrow").hasClass("hidden")) {
+                        $("#filterrow").removeClass("hidden");
+                    } else {
+                        $("#filterrow").addClass("hidden");
+                    }
+                }
+            }
+        ]
     });
 
     // Basic datatable
@@ -67,7 +80,6 @@ $(function() {
     });
 
     // Add placeholder to the datatable filter option
-    $('.dataTables_filter').hide();
     $('.dataTables_filter input[type=search]').unbind('keyup search input')
     .bind('keypress', function (e) {
         if (e.which == 13) {

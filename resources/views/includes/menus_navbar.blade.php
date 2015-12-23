@@ -19,7 +19,12 @@
 
                         <ul class="dropdown-menu width-200">
                             @foreach($menu->submenus as $submenu)
-                                <li><a href="{{ $submenu->route }}"><i class="fa-fw fa {{ $submenu->icon }}"></i> {{ $submenu->label }}</a></li>
+                                <li>
+                                    <a href="{{ $submenu->route }}">
+                                    {{--<i class="fa-fw fa {{ $submenu->icon }}"></i>--}}
+                                        {{ $submenu->label }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </li>

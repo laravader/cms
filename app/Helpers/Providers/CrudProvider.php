@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Helpers\Datatable;
+namespace App\Helpers\Providers;
 
 use App\Database\Metadata;
 use App\Exceptions\MissingMandatoryParametersException;
 
-trait DatatableProvider {
+trait CrudProvider {
 
     /**
      * All columns after processig $visible and $hien properties
@@ -83,21 +83,21 @@ trait DatatableProvider {
     }
 
     /**
-     * Check if there is a custom function to override header columns properties
+     * Check if there is a custom function to override datatable columns properties
      *
      * @return bool
      */
-    protected function hasOverridedHeaderColumns() {
-        return method_exists($this, 'setupDatatableHeaderColumns');
+    protected function hasCustomDatatableColumns() {
+        return method_exists($this, 'setupDatatableColumns');
     }
 
     /**
-     * Check if there is a custom function to override body columns properties
+     * Check if there is a custom function to override form columns properties
      *
      * @return bool
      */
-    protected function hasOverridedBodyColumns() {
-        return method_exists($this, 'setupDatatableBodyColumns');
+    protected function hasCustomFormFields() {
+        return method_exists($this, 'setupFormFields');
     }
 
     /**
@@ -105,7 +105,7 @@ trait DatatableProvider {
      *
      * @return bool
      */
-    protected function hasOverridedQueryList() {
+    protected function hasCustomDatatableQuery() {
         return method_exists($this, 'setupDatatableQuery');
     }
 
@@ -127,6 +127,11 @@ trait DatatableProvider {
     protected function removeUnexistentColumns($associativeColumns) {
         $computed = $this->getComputedColumns();
 
+        // If a custom query has been set, then doest not remove any column
+        if ($this->hasCustomDatatableQuery()) {
+           return $associativeColumns;
+        }
+
         foreach ($associativeColumns as $fieldName => $configurations) {
             if (!in_array($fieldName, $computed)) {
                 unset($associativeColumns[$fieldName]);
@@ -137,29 +142,29 @@ trait DatatableProvider {
     }
 
     /**
-     * Return the overrided array of header columns and its properties
+     * Return the custom array of form columns and its properties
      *
      * @return array
      */
-    protected function getOverridedHeaderColumns() {
-        if (!$this->hasOverridedHeaderColumns()) {
+    protected function getCustomFormFields() {
+        if (!$this->hasCustomFormFields()) {
             return [];
         }
 
-       return $this->removeUnexistentColumns($this->setupDatatableHeaderColumns());
+        return $this->setupFormFields();
     }
 
     /**
-     * Return the overrided array of body columns and its properties
+     * Return the custom array of datatable columns and its properties
      *
      * @return array
      */
-    protected function getOverridedBodyColumns() {
-        if (!$this->hasOverridedBodyColumns()) {
+    protected function getCustomDatatableColumns() {
+        if (!$this->hasCustomDatatableColumns()) {
             return [];
         }
 
-        return $this->removeUnexistentColumns($this->setupDatatableBodyColumns());
+        return $this->removeUnexistentColumns($this->setupDatatableColumns());
     }
 
     /**
@@ -174,6 +179,18 @@ trait DatatableProvider {
         }
 
         return $this->table;
+    }
+
+    /**
+     * Return the primary keys from the crud's table
+     *
+     * @return array
+     */
+    protected function getTablePrimaryKeys() {
+        if (property_exists($this, 'primaryKeys') && is_array($this->primaryKeys) && !empty($this->primaryKeys)) {
+            return $this->primaryKeys;
+        }
+        return Metadata::getTablePrimaryKeys($this->getTable());
     }
 
     /**
@@ -215,11 +232,11 @@ trait DatatableProvider {
     }
 
     /**
-     * Return the overrided datatable query list
+     * Return the custom datatable query list
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    protected function getOverridedListQuery() {
+    protected function getCustomDatatableQuery() {
         return $this->setupDatatableQuery();
     }
 
@@ -229,14 +246,14 @@ trait DatatableProvider {
      * @return array
      */
     protected function getResolvedAmbiguousColumns() {
-        if (!$this->hasOverridedHeaderColumns()) {
+        if (!$this->hasCustomDatatableColumns()) {
             return [];
         }
 
-        $overridedColumns = $this->setupDatatableHeaderColumns();
+        $customColumns = $this->setupDatatableColumns();
         $resolvedAmbiguous = [];
 
-        foreach ($overridedColumns as $columnName => $columnOverrides) {
+        foreach ($customColumns as $columnName => $columnOverrides) {
             if (isset($columnOverrides['table'])) {
                 $resolvedAmbiguous[$columnName] = sprintf("%s.%s", $columnOverrides['table'], $columnName);
             }
@@ -255,22 +272,22 @@ trait DatatableProvider {
             return $this->computedColumns;
         }
 
-        $columns = $this->getTableColumns();
+        $columns = collect($this->getTableColumns());
 
         if ($this->hasVisibleColumns()) {
-            $columns = array_intersect($columns, $this->getVisibleColumns());
+            $columns = $columns->only($this->getVisibleColumns());
         }
 
         if ($this->hasHiddenColumns()) {
-            $columns = array_diff($columns, $this->getHiddenColumns());
+            $columns = $columns->except($this->getHiddenColumns());
         }
 
-        return $this->computedColumns = array_values($columns);
+        return $this->computedColumns = $columns->toArray();
     }
 
     /**
-     * Get the default properties of all columns, these properties can be overrided
-     * using the method DatatableProvider::setupDatatableHeaderColumns
+     * Get the default properties of all columns, these properties can be custom
+     * using the method DatatableProvider::setupDatatableColumns
      *
      * @return array
      */
